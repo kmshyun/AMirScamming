@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amir the Scammer Chat Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #game-container {
+            width: 90%;
+            max-width: 600px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        #chat-box {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ccc;
+        }
+        .message {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+        }
+        .amir {
+            color: #d9534f;
+            font-weight: bold;
+        }
+        .player {
+            color: #5bc0de;
+            font-weight: bold;
+        }
+        .amir img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        #choices-container {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            background: #f4f4f9;
+        }
+        .choice-button {
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 16px;
+            background-color: #5bc0de;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .choice-button:hover {
+            background-color: #31b0d5;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="chat-box"></div>
+        <div id="choices-container"></div>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById("chat-box");
+        const choicesContainer = document.getElementById("choices-container");
+
+        const amirScenarios = [
+            {
+                message: "Hello! This is Amir from \"Microsoft Tech Support.\" Your computer has virus! Send me $100 gift card.",
+                choices: [
+                    "Are you Really Microsoft Tech Support?",
+                    "I only have Monopoly money, will that work?",
+                    "Nice try, Amir. My computer is fine."
+                ]
+            },
+            {
+                message: "Yes I am Bill Gates From MICROSOFT.",
+                choices: [
+                    "Prove It.",
+                    "Oh Really?",
+                    "Nice try, Amir. My computer is fine."
+                ]
+            },
+            {
+                message: "Yes. I MAKe WInDoWS. WinDinDia 3.0",
+                choices: [
+                    "Are you a scam?",
+                    "WinDinDia?",
+                    "Nice try, Amir. I know you are a scammer."
+                ]
+            },
+            {
+                message: "Send $500 to my PayPal, amir@indian69.com, and I will double it for you",
+                choices: [
+                    "Wow, doubling my money? Sounds amazing!",
+                    "Can you send me $500 first so I can trust you?",
+                    "No thanks, Amir. I'm not falling for it."
+                ]
+            },
+            {
+                message: "Your account will be closed unless you provide your password immediately!",
+                choices: [
+                    "Actually, I'm your boss. Amir, your scamming skills are very terrible!.",
+                    "Nice try, Amir. Do you think I was born yesterday?"
+                ]
+            },
+            {
+                message: "OH NO BOSS \n IM SORRY BOSS",
+                choices: [
+                    "Improve your technique. \n And Make me a Curry",
+                ]
+            },
+        ];
+
+        let scenarioIndex = 0;
+
+        function addMessage(sender, text) {
+            const message = document.createElement("div");
+            message.classList.add("message", sender);
+
+            if (sender === "amir") {
+                const img = document.createElement("img");
+                img.src = "https://media.tenor.com/7FPp2pDREpAAAAAe/amir.png"; // Replace with Amir's profile picture URL if available
+                img.alt = "Amir";
+                message.appendChild(img);
+            }
+
+            const textNode = document.createElement("span");
+            textNode.textContent = text;
+            message.appendChild(textNode);
+
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function showChoices(choices) {
+            choicesContainer.innerHTML = "";
+            choices.forEach((choice, index) => {
+                const button = document.createElement("button");
+                button.classList.add("choice-button");
+                button.textContent = choice;
+                button.addEventListener("click", () => handleChoice(index));
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        function handleChoice(choiceIndex) {
+            const currentScenario = amirScenarios[scenarioIndex];
+            addMessage("player", currentScenario.choices[choiceIndex]);
+
+            scenarioIndex++;
+            if (scenarioIndex < amirScenarios.length) {
+                setTimeout(() => {
+                    const nextScenario = amirScenarios[scenarioIndex];
+                    addMessage("amir", nextScenario.message);
+                    showChoices(nextScenario.choices);
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    addMessage("amir", "Okay. Amir is Going byebye.");
+                    choicesContainer.innerHTML = "";
+                }, 1000);
+            }
+        }
+
+        // Start the game
+        const firstScenario = amirScenarios[0];
+        addMessage("amir", firstScenario.message);
+        showChoices(firstScenario.choices);
+    </script>
+</body>
+</html>
